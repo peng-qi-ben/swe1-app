@@ -1,0 +1,41 @@
+language: python
+dist: bionic
+python:
+  - "3.9"
+before_install:
+  # - pip install 'urllib3<2.0'
+  # - sudo apt-get update
+  # # Verify SQLite version
+  # - sqlite3 --version
+  # - pip freeze > requirements.txt
+install:
+  - pip install -r requirements.txt
+  
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: "$AWS_ACCESS_KEY_ID"
+  secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+  region: "us-west-2"
+  app: "Swe1APPPoll"
+  env: "django-env-new"
+  bucket_name: "$S3_BUCKET_NAME"
+
+before_script:
+  # - source ~/virtualenv/python3.11/bin/activate
+  # - pip install -r requirements.txt
+  - python manage.py migrate
+  - python manage.py collectstatic --noinput
+before_deploy: "echo 'ready?'"
+
+
+script:
+  # Check code formatting with black.
+  - black --check .
+  # Run flake8 linter.
+  - flake8 .
+  # Run your test suite and capture coverage.
+  - coverage run --source=polls manage.py test
+
+after_script:
+# Report coverage to coveralls.
+  - coveralls
