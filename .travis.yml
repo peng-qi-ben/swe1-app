@@ -3,7 +3,6 @@ dist: bionic
 python:
   - "3.9"
 before_install:
-  - cd Swe1AppPoll
   # - pip install 'urllib3<2.0'
   # # Verify SQLite version
   # - sqlite3 --version
