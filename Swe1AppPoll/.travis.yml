@@ -5,7 +5,6 @@ python:
 before_install:
   - cd Swe1AppPoll
   # - pip install 'urllib3<2.0'
-  # - sudo apt-get update
   # # Verify SQLite version
   # - sqlite3 --version
   # - pip freeze > requirements.txt
